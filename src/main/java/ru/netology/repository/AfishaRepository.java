@@ -29,7 +29,13 @@ public class AfishaRepository {
     }
 
     public void removeById(String id) {
-        int length = movies.length - 1;
+        int length;
+        Movie movieForDelete = findById(id);
+        if (movieForDelete == null) {
+            length = movies.length;
+        } else {
+            length = movies.length - 1;
+        }
         Movie[] tmp = new Movie[length];
         int index = 0;
         for (Movie movie : movies) {
