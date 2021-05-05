@@ -1,32 +1,27 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Movie;
+import ru.netology.repository.AfishaRepository;
 
 public class AfishaManager {
-    private Movie[] movies = new Movie[0];
+    private AfishaRepository repository;
     private int moviesAmountInFeed = 10;
 
-    public Movie[] getMovies() {
-        return movies;
+    public AfishaManager(AfishaRepository repository) {
+        this.repository = repository;
     }
 
-    public AfishaManager() {
-    }
-
-    public AfishaManager(int moviesAmountInFeed) {
+    public AfishaManager(AfishaRepository repository, int moviesAmountInFeed) {
+        this.repository = repository;
         this.moviesAmountInFeed = moviesAmountInFeed;
     }
 
     public void addToFeed(Movie movie) {
-        int length = movies.length + 1;
-        Movie[] tmp = new Movie[length];
-        System.arraycopy(movies, 0, tmp, 0, movies.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = movie;
-        movies = tmp;
+        repository.save(movie);
     }
 
-    public Movie[] showMoviesFeed() {
+    public Movie[] getMoviesFeed() {
+        Movie[] movies = repository.findAll();
         int length = moviesAmountInFeed;
         if (moviesAmountInFeed > movies.length) {
             length = movies.length;
